@@ -11,14 +11,14 @@ type Position = {
   right?: number;
 };
 
-type UseTooltipProps = {
+type UseHintProps = {
   ref: RefObject<HTMLElement>;
-  tooltipRef: RefObject<HTMLDivElement>;
+  hintLabelRef: RefObject<HTMLDivElement>;
   side: Side;
 };
 
-export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
-  const [isVisible, setVisible] = useState<boolean>(false);
+export function useHint({ ref, hintLabelRef, side }: UseHintProps) {
+  const [visible, setVisible] = useState<boolean>(false);
   const [position, setPosition] = useState<Position>({});
   const [calculatedSide, setCalculatedSide] = useState<Side | undefined>(side);
 
@@ -27,15 +27,15 @@ export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
       return;
     }
 
-    if (isVisible) {
+    if (visible) {
       const { left, width, bottom, top, height, right } =
         ref.current.getBoundingClientRect();
-      const tooltipWidth =
-        tooltipRef?.current?.getBoundingClientRect().width || 0;
-      const tooltipHeight =
-        tooltipRef?.current?.getBoundingClientRect().height || 0;
-      const middleWidth = left + width / 2 - tooltipWidth / 2;
-      const middleHeight = top + height / 2 - tooltipHeight / 2;
+      const hintWidth =
+        hintLabelRef?.current?.getBoundingClientRect().width || 0;
+      const hintHeight =
+        hintLabelRef?.current?.getBoundingClientRect().height || 0;
+      const middleWidth = left + width / 2 - hintWidth / 2;
+      const middleHeight = top + height / 2 - hintHeight / 2;
       const verticalOffset = 12;
       const rightDistanceToScreenEnd = window.innerWidth - right;
       let newCalculatedSide: Side | undefined = side;
@@ -44,11 +44,11 @@ export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
         newCalculatedSide = left < window.innerWidth / 2 ? "right" : "left";
       }
 
-      if (left < tooltipWidth) {
+      if (left < hintWidth) {
         newCalculatedSide = "right";
       }
 
-      if (rightDistanceToScreenEnd < tooltipWidth) {
+      if (rightDistanceToScreenEnd < hintWidth) {
         newCalculatedSide = "left";
       }
 
@@ -74,7 +74,7 @@ export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
         });
       } else if (newCalculatedSide === "left") {
         setPosition({
-          left: left - tooltipWidth - verticalOffset,
+          left: left - hintWidth - verticalOffset,
           top: middleHeight,
           height,
         });
@@ -83,7 +83,7 @@ export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
       setPosition({});
       setCalculatedSide(undefined);
     }
-  }, [isVisible, ref, tooltipRef, side]);
+  }, [visible, ref, hintLabelRef, side]);
 
   const onMouseOver = useCallback(() => {
     setVisible(true);
@@ -95,7 +95,7 @@ export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
 
   return {
     position,
-    isVisible,
+    visible,
     onMouseOver,
     onMouseOut,
     calculatedSide,

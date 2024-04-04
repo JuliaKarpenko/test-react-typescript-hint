@@ -1,31 +1,27 @@
-import React, { FC, RefObject, useEffect, useRef } from "react";
-import { useTooltip } from "./Hint.hooks";
+import React, { FC, useEffect, useRef } from "react";
+import { useHint } from "./Hint.hooks";
 import "./Hint.css";
-import { Side } from './Hint.hooks';
+import { Side } from "./Hint.hooks";
 
-type TooltipProps = {
-  elementRef: RefObject<HTMLElement>;
-  children: React.ReactNode;
-  side: Side
+type HintProps = {
+  hintLabel: React.ReactNode;
+  hintElement: React.ReactNode;
+  side: Side;
 };
 
-const Hint: FC<TooltipProps> = ({ children, elementRef, side }) => {
-  const tooltipRef = useRef<HTMLDivElement>(null);
+const Hint: FC<HintProps> = ({ hintLabel, side, hintElement }) => {
+  const hintLabelRef = useRef<HTMLDivElement>(null);
+  const hintContainerRef = useRef<HTMLDivElement>(null);
 
-  const {
-    position,
-    isVisible,
-    onMouseOver,
-    onMouseOut,
-    calculatedSide,
-  } = useTooltip({
-    ref: elementRef,
-    tooltipRef,
-    side,
-  });
+  const { position, visible, onMouseOver, onMouseOut, calculatedSide } =
+    useHint({
+      ref: hintContainerRef,
+      hintLabelRef,
+      side,
+    });
 
   useEffect(() => {
-    const element = elementRef?.current;
+    const element = hintContainerRef?.current;
 
     if (element) {
       element.addEventListener("mouseenter", onMouseOver);
@@ -39,24 +35,27 @@ const Hint: FC<TooltipProps> = ({ children, elementRef, side }) => {
         element.removeEventListener("mouseleave", onMouseOut);
       }
     };
-  }, [elementRef, onMouseOver, onMouseOut]);
-
-  if (!isVisible) {
-    return null;
-  }
+  }, [onMouseOver, onMouseOut]);
 
   return (
-    <div
-      ref={tooltipRef}
-      className={`hint-container hint-container--${calculatedSide}`} // adding className here for later use
-      style={{
-        top: position.top,
-        left: position.left,
-        bottom: position.bottom,
-        right: position.right,
-      }}
-    >
-      {children}
+    <div ref={hintContainerRef}>
+      <div>{hintElement}</div>
+      {visible && (
+        <>
+          <div
+            ref={hintLabelRef}
+            className={`hint-container hint-container--${calculatedSide}`}
+            style={{
+              top: position.top,
+              left: position.left,
+              bottom: position.bottom,
+              right: position.right,
+            }}
+          >
+            {hintLabel}
+          </div>
+        </>
+      )}
     </div>
   );
 };
