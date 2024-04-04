@@ -17,6 +17,7 @@ const Hint: FC<TooltipProps> = ({ children, elementRef, side }) => {
     isVisible,
     onMouseOver,
     onMouseOut,
+    calculatedSide,
   } = useTooltip({
     ref: elementRef,
     tooltipRef,
@@ -47,7 +48,7 @@ const Hint: FC<TooltipProps> = ({ children, elementRef, side }) => {
   return (
     <div
       ref={tooltipRef}
-      className={`hint-container hint-container--${side}`} // adding className here for later use
+      className={`hint-container hint-container--${calculatedSide}`} // adding className here for later use
       style={{
         top: position.top,
         left: position.left,

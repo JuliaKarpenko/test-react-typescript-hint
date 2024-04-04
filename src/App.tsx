@@ -11,19 +11,10 @@ export default function App() {
   return (
     <div className="App">
       <div className="App-container">
-
-      <Hint elementRef={leftRef} side="left">
+        <Hint elementRef={leftRef} side="left">
           <a href="https://next.privat24.ua/">I'm a hint left</a>
         </Hint>
         <div ref={leftRef}>Hello world</div>
-
-        <Hint elementRef={buttonRef} side="right">
-          <span>I'm a hint right</span>
-        </Hint>
-        <button className="button" ref={buttonRef}>
-          Hello world
-        </button>
-
 
         <Hint elementRef={topRef} side="top">
           "I'm a hint top"
@@ -34,6 +25,13 @@ export default function App() {
           <span>I'm a hint bottom</span>
         </Hint>
         <div ref={bottomRef}>Hello world</div>
+
+        <Hint elementRef={buttonRef} side="right">
+          <span>I'm a hint right</span>
+        </Hint>
+        <button className="button" ref={buttonRef}>
+          Hello world
+        </button>
       </div>
     </div>
   );

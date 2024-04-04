@@ -20,6 +20,7 @@ type UseTooltipProps = {
 export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
   const [isVisible, setVisible] = useState<boolean>(false);
   const [position, setPosition] = useState<Position>({});
+  const [calculatedSide, setCalculatedSide] = useState<Side | undefined>(side);
 
   useEffect(() => {
     if (!ref.current) {
@@ -27,59 +28,61 @@ export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
     }
 
     if (isVisible) {
-      const { left, width, bottom, top, height, right } = ref.current.getBoundingClientRect();
+      const { left, width, bottom, top, height, right } =
+        ref.current.getBoundingClientRect();
       const tooltipWidth =
         tooltipRef?.current?.getBoundingClientRect().width || 0;
-        const tooltipHeight =
+      const tooltipHeight =
         tooltipRef?.current?.getBoundingClientRect().height || 0;
       const middleWidth = left + width / 2 - tooltipWidth / 2;
       const middleHeight = top + height / 2 - tooltipHeight / 2;
       const verticalOffset = 12;
-      let calculatedSide: Side = side;
+      const rightDistanceToScreenEnd = window.innerWidth - right;
+      let newCalculatedSide: Side | undefined = side;
 
-      if (!calculatedSide) {
-        calculatedSide = left < window.innerWidth / 2 ? "right" : "left";
+      if (!newCalculatedSide) {
+        newCalculatedSide = left < window.innerWidth / 2 ? "right" : "left";
       }
 
-      if ( left < tooltipWidth) {
-        calculatedSide = 'right'
+      if (left < tooltipWidth) {
+        newCalculatedSide = "right";
       }
 
-      console.log('left < tooltipWidth', left < tooltipWidth)
+      if (rightDistanceToScreenEnd < tooltipWidth) {
+        newCalculatedSide = "left";
+      }
 
-      if( calculatedSide === 'bottom') {
+      setCalculatedSide(newCalculatedSide);
+
+      if (newCalculatedSide === "bottom") {
         setPosition({
           top: bottom + verticalOffset,
           left: middleWidth,
           width,
         });
-      }
-      if( calculatedSide === 'top') {
+      } else if (newCalculatedSide === "top") {
         setPosition({
           bottom: top + height + verticalOffset,
           left: middleWidth,
           width,
         });
-      }
-      if( calculatedSide === 'right') {
+      } else if (newCalculatedSide === "right") {
         setPosition({
           left: right + verticalOffset,
           top: middleHeight,
           height,
         });
-      }
-      if( calculatedSide === 'left') {
+      } else if (newCalculatedSide === "left") {
         setPosition({
           left: left - tooltipWidth - verticalOffset,
           top: middleHeight,
           height,
         });
       }
-
     } else {
       setPosition({});
+      setCalculatedSide(undefined);
     }
-    
   }, [isVisible, ref, tooltipRef, side]);
 
   const onMouseOver = useCallback(() => {
@@ -87,7 +90,7 @@ export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
   }, []);
 
   const onMouseOut = useCallback(() => {
-      setVisible(false);    
+    setVisible(false);
   }, []);
 
   return {
@@ -95,5 +98,6 @@ export function useTooltip({ ref, tooltipRef, side }: UseTooltipProps) {
     isVisible,
     onMouseOver,
     onMouseOut,
+    calculatedSide,
   };
 }
