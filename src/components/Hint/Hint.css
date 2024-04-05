@@ -1,12 +1,12 @@
 
 .hint-container {
     position: absolute;
-    font-size: 14px;
-    line-height: 20px;
-    background-color: #2c3a43;
+    font-size: 12px;
+    background-color: #5e5d5d;
     color: white;
-    padding: 16px;
+    padding: 8px;
     margin: 0;
+    border-radius: 2px;
   }
 
   .hint-container a {
@@ -21,45 +21,45 @@
   }
 
   .hint-container--bottom::before {
-    top: -12px;
+    top: -8px;
     left: 50%;
     transform: translateX(-50%);
-    border-left: 16px solid transparent;
-    border-right: 16px solid transparent;
-    border-bottom: 18px solid #2c3a43;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 10px solid #5e5d5d;
   }
     
   .hint-container--top::before {
     top: auto;
-    bottom: -12px;
+    bottom: -8px;
     left: 50%;
     transform: translateX(-50%);
-    border-left: 16px solid transparent;
-    border-right: 16px solid transparent;
-    border-top: 18px solid #2c3a43;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid #5e5d5d;
     border-bottom: transparent;
   }
 
   .hint-container--right::before {
-    left: -12px;
+    left: -8px;
     top: 50%;
     transform: translateY(-50%);
     right: auto;
-    border-bottom: 16px solid transparent;
-    border-top: 16px solid transparent;
-    border-right: 18px solid #2c3a43;
+    border-bottom: 8px solid transparent;
+    border-top: 8px solid transparent;
+    border-right: 10px solid #5e5d5d;
     border-left: transparent
 
   }
 
   .hint-container--left::before {
-    right: -12px;
+    right: -8px;
     top: 50%;
     transform: translateY(-50%);
     left: auto;
-    border-bottom: 16px solid transparent;
-    border-top: 16px solid transparent;
-    border-left: 18px solid #2c3a43;
+    border-bottom: 8px solid transparent;
+    border-top: 8px solid transparent;
+    border-left: 10px solid #5e5d5d;
     border-right: transparent;
 
   } 

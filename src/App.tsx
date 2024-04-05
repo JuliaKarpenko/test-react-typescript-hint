@@ -7,27 +7,65 @@ export default function App() {
       <div className="App-container">
         <Hint
           side="left"
-          hintLabel={<a href="https://next.privat24.ua/">I'm a hint</a>}
-          hintElement={<div>Hover this box</div>}
-        ></Hint>
+          hintContent={<a href="https://next.privat24.ua/">I'm a hint</a>}
+          className="App-item App-item--left"
+        >
+          <div>Hover this box</div>
+        </Hint>
 
         <Hint
           side="top"
-          hintLabel={"I'm a hint"}
-          hintElement={<div>Hover this box</div>}
-        ></Hint>
+          hintContent={"I'm a hint"}
+          className="App-item App-item--top"
+        >
+          <div>Hover this box</div>
+        </Hint>
+        <div className="App-item--center">
+          <Hint
+            side="left"
+            hintContent={<a href="https://next.privat24.ua/">I'm a hint</a>}
+            className="App-item App-item--left"
+          >
+            <div>Hover this box</div>
+          </Hint>
+          <Hint
+            side="top"
+            hintContent={"I'm a hint"}
+            className="App-item App-item--top"
+          >
+            <div>Hover this box</div>
+          </Hint>
+          <Hint
+            side="bottom"
+            hintContent={"I'm a hint"}
+            className="App-item App-item--bottom"
+          >
+            <div>Hover this box</div>
+          </Hint>
+          <Hint
+            side="right"
+            hintContent={"I'm a hint"}
+            className="App-item App-item--right"
+          >
+            <div>Hover this box</div>
+          </Hint>
+        </div>
 
         <Hint
           side="bottom"
-          hintLabel={"I'm a hint"}
-          hintElement={<div>Hover this box</div>}
-        ></Hint>
+          hintContent={"I'm a hint"}
+          className="App-item App-item--bottom"
+        >
+          <div>Hover this box</div>
+        </Hint>
 
         <Hint
           side="right"
-          hintLabel={"I'm a hint"}
-          hintElement={<div>Hover this box</div>}
-        ></Hint>
+          hintContent={"I'm a hint"}
+          className="App-item App-item--right"
+        >
+          <div>Hover this box</div>
+        </Hint>
       </div>
     </div>
   );

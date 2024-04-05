@@ -1,22 +1,23 @@
 import React, { FC, useEffect, useRef } from "react";
-import { useHint } from "./Hint.hooks";
+import { useHint } from "./hooks/useHint";
 import "./Hint.css";
-import { Side } from "./Hint.hooks";
+import { Side } from "./hooks/useHint";
 
-type HintProps = {
-  hintLabel: React.ReactNode;
-  hintElement: React.ReactNode;
+type Props = {
+  hintContent: React.ReactNode;
+  children: React.ReactNode;
   side: Side;
+  className?: string;
 };
 
-const Hint: FC<HintProps> = ({ hintLabel, side, hintElement }) => {
-  const hintLabelRef = useRef<HTMLDivElement>(null);
+const Hint: FC<Props> = ({ hintContent, side, children, className }) => {
   const hintContainerRef = useRef<HTMLDivElement>(null);
+  const hintContentRef = useRef<HTMLDivElement>(null);
 
   const { position, visible, onMouseOver, onMouseOut, calculatedSide } =
     useHint({
       ref: hintContainerRef,
-      hintLabelRef,
+      hintContentRef,
       side,
     });
 
@@ -35,26 +36,24 @@ const Hint: FC<HintProps> = ({ hintLabel, side, hintElement }) => {
         element.removeEventListener("mouseleave", onMouseOut);
       }
     };
-  }, [onMouseOver, onMouseOut]);
+  }, []);
 
   return (
-    <div ref={hintContainerRef}>
-      <div>{hintElement}</div>
+    <div className={className} ref={hintContainerRef}>
+      <div >{children}</div>
       {visible && (
-        <>
-          <div
-            ref={hintLabelRef}
-            className={`hint-container hint-container--${calculatedSide}`}
-            style={{
-              top: position.top,
-              left: position.left,
-              bottom: position.bottom,
-              right: position.right,
-            }}
-          >
-            {hintLabel}
-          </div>
-        </>
+        <div
+          ref={hintContentRef}
+          className={`hint-container hint-container--${calculatedSide}`}
+          style={{
+            top: position.top,
+            right: position.right,
+            bottom: position.bottom,
+            left: position.left,
+          }}
+        >
+          {hintContent}
+        </div>
       )}
     </div>
   );

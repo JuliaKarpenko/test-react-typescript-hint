@@ -1,13 +1,50 @@
 .App {
-    text-align: center;
-  }
-  
-  .App-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    font-size: calc(10px + 2vmin);
-  }
-  
-  
+  text-align: center;
+}
+
+.App-container {
+  height: 100vh;
+  display: flex;
+  justify-content: space-between
+}
+
+.App-item {
+  font-size: 18px;
+  border: 1px solid rgb(110, 110, 110);
+  height: auto;
+  width: auto;
+  padding: 8px;
+  margin: 6px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 8px;
+  background-color: #ced7ef;
+  border-radius: 4px;
+  color: gray;
+}
+
+.App-item--center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+  width: fit-content;
+  align-self: center;
+  flex-wrap: wrap;
+}
+
+.App-item--bottom {
+  align-self: flex-end;
+}
+
+.App-item--top {
+  align-self: flex-start;
+}
+
+.App-item--left {
+  align-self: center;
+}
+
+.App-item--right {
+  align-self: center;
+}

@@ -11,13 +11,13 @@ type Position = {
   right?: number;
 };
 
-type UseHintProps = {
+type Props = {
   ref: RefObject<HTMLElement>;
-  hintLabelRef: RefObject<HTMLDivElement>;
+  hintContentRef: RefObject<HTMLDivElement>;
   side: Side;
 };
 
-export function useHint({ ref, hintLabelRef, side }: UseHintProps) {
+export function useHint({ ref, hintContentRef, side }: Props) {
   const [visible, setVisible] = useState<boolean>(false);
   const [position, setPosition] = useState<Position>({});
   const [calculatedSide, setCalculatedSide] = useState<Side | undefined>(side);
@@ -31,13 +31,14 @@ export function useHint({ ref, hintLabelRef, side }: UseHintProps) {
       const { left, width, bottom, top, height, right } =
         ref.current.getBoundingClientRect();
       const hintWidth =
-        hintLabelRef?.current?.getBoundingClientRect().width || 0;
+        hintContentRef?.current?.getBoundingClientRect().width || 0;
       const hintHeight =
-        hintLabelRef?.current?.getBoundingClientRect().height || 0;
+        hintContentRef?.current?.getBoundingClientRect().height || 0;
       const middleWidth = left + width / 2 - hintWidth / 2;
       const middleHeight = top + height / 2 - hintHeight / 2;
-      const verticalOffset = 12;
+      const offset = 8; // because we have top: -8px in the css class tooltip-container::before for an arrow
       const rightDistanceToScreenEnd = window.innerWidth - right;
+      const bottomDistanceToScreenEnd = window.innerHeight - bottom;
       let newCalculatedSide: Side | undefined = side;
 
       if (!newCalculatedSide) {
@@ -52,39 +53,53 @@ export function useHint({ ref, hintLabelRef, side }: UseHintProps) {
         newCalculatedSide = "left";
       }
 
+      if (bottomDistanceToScreenEnd < hintHeight) {
+        newCalculatedSide = "top";
+      }
+
+      if (top < hintHeight) {
+        newCalculatedSide = "bottom";
+      }
+
       setCalculatedSide(newCalculatedSide);
 
-      if (newCalculatedSide === "bottom") {
-        setPosition({
-          top: bottom + verticalOffset,
-          left: middleWidth,
-          width,
-        });
-      } else if (newCalculatedSide === "top") {
-        setPosition({
-          bottom: top + height + verticalOffset,
-          left: middleWidth,
-          width,
-        });
-      } else if (newCalculatedSide === "right") {
-        setPosition({
-          left: right + verticalOffset,
-          top: middleHeight,
-          height,
-        });
-      } else if (newCalculatedSide === "left") {
-        setPosition({
-          left: left - hintWidth - verticalOffset,
-          top: middleHeight,
-          height,
-        });
+      switch (newCalculatedSide) {
+        case "bottom":
+          setPosition({
+            top: bottom + offset,
+            left: middleWidth,
+            width,
+          });
+          break;
+        case "top":
+          setPosition({
+            top: top - hintHeight - offset,
+            left: middleWidth,
+            width,
+          });
+          break;
+        case "right":
+          setPosition({
+            left: right + offset,
+            top: middleHeight,
+            height,
+          });
+          break;
+        case "left":
+          setPosition({
+            left: left - hintWidth - offset,
+            top: middleHeight,
+            height,
+          });
+          break;
+        default:
+          setPosition({});
+          setCalculatedSide(undefined);
       }
-    } else {
-      setPosition({});
-      setCalculatedSide(undefined);
     }
-  }, [visible, ref, hintLabelRef, side]);
+  }, [visible, ref, hintContentRef, side]);
 
+  // to cache the function definition and avoid unnecessary re-renders
   const onMouseOver = useCallback(() => {
     setVisible(true);
   }, []);
