@@ -1,3 +1,7 @@
+[![DEMO](https://img.shields.io/badge/live%20demo-0073cf?style=for-the-badge&logoColor=white)](https://juliakarpenko.github.io/test-react-typescript-hint)
+
+![Demo](https://github.com/JuliaKarpenko/test-react-typescript-hint/blob/main/demohint-ezgif.com-video-to-gif-converter.gif)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
