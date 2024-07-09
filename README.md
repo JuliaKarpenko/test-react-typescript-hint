@@ -1,6 +1,18 @@
-# Hint with React and TypeScript
+# React Hint Component
+## Description.
+This project implements a "Hint" component for React that can be attached to elements on a page to display additional information. The hint component appears when users hover over an element, providing them with text, links, or JSX elements. In addition, the tooltip can automatically change its location if it does not fit on the screen.
 
-A simple Hint with React and TypeScript
+## Component requirements
+- Can accept text, links, JSX elements.
+- It has the ability to select the side of the tooltip element.
+- Pops up when you hover the cursor over the element.
+- Should stand out against the background of the content.
+- Moves if it does not fit on the screen.
+
+## Technologies used
+- ReactJS
+- TypeScript
+- CSS
 
 [![DEMO](https://img.shields.io/badge/live%20demo-0073cf?style=for-the-badge&logoColor=white)](https://juliakarpenko.github.io/test-react-typescript-hint)
 
